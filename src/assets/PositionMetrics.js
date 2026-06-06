@@ -1,14 +1,4 @@
-export interface RolePlacementMetrics {
-  title: string;
-  department: string;
-  zone: string;
-  facing: string;
-  advantage: string;
-  allocatedFunding: string;
-}
-
-export const POSITION_PLACEMENT_MATRIX: Record<string, RolePlacementMetrics> = {
-  // --- TECH & ENGINEERING SECTOR ---
+export const POSITION_PLACEMENT_MATRIX = {
   FULL_STACK: {
     title: "Full Stack Developer",
     department: "Engineering & Core Infrastructure",
@@ -33,8 +23,6 @@ export const POSITION_PLACEMENT_MATRIX: Record<string, RolePlacementMetrics> = {
     advantage: "Drives continuous integration momentum, uptime initiative, and proactive monitoring energy.",
     allocatedFunding: "$150,000"
   },
-
-  // --- NON-TECH SECTOR (NEW ADDITIONS) ---
   HR_MANAGER: {
     title: "Human Resources Manager",
     department: "People Operations & Recruitment",
@@ -75,8 +63,6 @@ export const POSITION_PLACEMENT_MATRIX: Record<string, RolePlacementMetrics> = {
     advantage: "Maintains smooth day-to-day operations, task completion, and general workplace order.",
     allocatedFunding: "$65,000"
   },
-
-  // --- EXECUTIVE SECTOR ---
   CHIEF_EXECUTIVE: {
     title: "Managing Director / CEO",
     department: "Executive Leadership Board",

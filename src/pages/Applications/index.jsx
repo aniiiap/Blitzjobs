@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { useBoard } from '../../context/BoardContext';
 
-export const ApplicationsPage: React.FC = () => {
+export const ApplicationsPage = () => {
   const { applications, shiftStatus } = useBoard();
-  const [expandedId, setExpandedId] = useState<string | null>('app-1');
-  const [filterStatus, setFilterStatus] = useState<string>('ALL');
+  const [expandedId, setExpandedId] = useState('app-1');
+  const [filterStatus, setFilterStatus] = useState('ALL');
 
-  const [onboardingDocs, setOnboardingDocs] = useState<{ [key: string]: string[] }>({
+  const [onboardingDocs, setOnboardingDocs] = useState({
     'app-1': []
   });
 
-  const stages: ('APPLIED' | 'REVIEWING' | 'SHORTLISTED' | 'REJECTED' | 'SELECTED')[] = [
+  const stages = [
     'APPLIED',
     'REVIEWING',
     'SHORTLISTED',
@@ -23,7 +23,7 @@ export const ApplicationsPage: React.FC = () => {
     return app.status === filterStatus;
   });
 
-  const handleDocUpload = (appId: string, docType: string) => {
+  const handleDocUpload = (appId, docType) => {
     setOnboardingDocs(prev => {
       const currentDocs = prev[appId] || [];
       if (currentDocs.includes(docType)) return prev;
@@ -33,7 +33,7 @@ export const ApplicationsPage: React.FC = () => {
   };
 
   // --- DYNAMIC EMAIL MATRIX DICTIONARY (Idea 1 Logic Hub) ---
-  const getFollowUpTemplate = (status: string, title: string, company: string) => {
+  const getFollowUpTemplate = (status, title, company) => {
     switch (status) {
       case 'APPLIED':
         return {
@@ -65,7 +65,7 @@ export const ApplicationsPage: React.FC = () => {
     }
   };
 
-  const handleCopyToClipboard = (text: string) => {
+  const handleCopyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
     alert('Follow-Up copy successfully mirrored to your system clipboard!');
   };
@@ -110,7 +110,7 @@ export const ApplicationsPage: React.FC = () => {
           const uploadedList = onboardingDocs[app.id] || [];
           const emailTemplate = getFollowUpTemplate(app.status, app.title, app.company);
           
-          const getStatusStyles = (status: string) => {
+          const getStatusStyles = (status) => {
             switch(status) {
               case 'APPLIED': return 'bg-blue-50 text-blue-600 border-blue-100';
               case 'REVIEWING': return 'bg-amber-50 text-amber-600 border-amber-100';
@@ -188,7 +188,7 @@ export const ApplicationsPage: React.FC = () => {
                     <h4 className="text-[10px] font-mono font-bold tracking-widest text-slate-400 uppercase">// PIPELINE MANAGEMENT TERMINAL PROGRESSION</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-1">
                       {stages.map((stageName, idx) => {
-                        const currentStatusIndex = stages.indexOf(app.status as any);
+                        const currentStatusIndex = stages.indexOf(app.status);
                         const isPastOrCurrent = idx <= (currentStatusIndex !== -1 ? currentStatusIndex : 0);
                         return (
                           <div key={idx} className={`p-3 border rounded-xl space-y-1 bg-white shadow-3xs transition-all relative ${app.status === stageName ? 'border-blue-400 ring-2 ring-blue-500/10' : isPastOrCurrent ? 'border-blue-100 bg-gradient-to-br from-white to-blue-50/10' : 'border-slate-200/60 opacity-60'}`}>

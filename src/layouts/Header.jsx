@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useTheme } from '../context/ThemeContext'; // <-- Core theme hook import
+import { useTheme } from '../context/ThemeContext';
 
-export const Header: React.FC = () => {
+export const Header = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { isDarkMode, toggleTheme } = useTheme(); // <-- Destructure states safely inside the function
+  const { theme, toggleTheme } = useTheme();
+  const isDarkMode = theme === 'dark';
 
   const navItems = [
     { label: 'Overview', path: '/dashboard' },
@@ -14,21 +15,19 @@ export const Header: React.FC = () => {
     { label: 'Profile', path: '/profile' },
   ];
 
-  const isActive = (path: string) => location.pathname === path;
+  const isActive = (path) => location.pathname === path;
 
   return (
     <nav className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 sticky top-0 z-40 w-full text-gray-900 dark:text-gray-100 shadow-xs transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
-          
-          {/* Brand Logo */}
+
           <div className="flex items-center">
             <Link to="/" className="text-xl font-black tracking-tight text-blue-600 flex items-center gap-1.5 select-none">
               <span>⚡</span> BlitzJobs
             </Link>
           </div>
 
-          {/* Desktop Navigation Links & Mode Switcher */}
           <div className="hidden md:flex items-center gap-2">
             {navItems.map((item) => (
               <Link
@@ -44,7 +43,6 @@ export const Header: React.FC = () => {
               </Link>
             ))}
 
-            {/* Clean, Integrated Theme Toggle Button */}
             <button
               onClick={toggleTheme}
               type="button"
@@ -54,7 +52,6 @@ export const Header: React.FC = () => {
             </button>
           </div>
 
-          {/* Mobile Menu Action Trigger Button */}
           <div className="flex md:hidden items-center gap-2">
             <button
               onClick={toggleTheme}
@@ -63,7 +60,7 @@ export const Header: React.FC = () => {
             >
               {isDarkMode ? '☀️' : '🌙'}
             </button>
-            
+
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               type="button"
@@ -76,7 +73,6 @@ export const Header: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Slide-down Panel */}
       {isMobileMenuOpen && (
         <div className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 px-4 pt-2 pb-4 space-y-1 transition-all">
           {navItems.map((item) => (

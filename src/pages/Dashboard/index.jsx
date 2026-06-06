@@ -2,19 +2,7 @@ import React, { useState } from 'react';
 import { useBoard } from '../../context/BoardContext';
 import { Link } from 'react-router-dom';
 
-interface SystemNotification {
-  id: string;
-  type: 'STATUS_CHANGE' | 'NEXT_STEP' | 'ALERT';
-  title: string;
-  description: string;
-  timestamp: string;
-  badgeColor: string;
-  icon: string;
-  actionText?: string;
-  actionPath?: string;
-}
-
-export const DashboardPage: React.FC = () => {
+export const DashboardPage = () => {
   const { activeUser, applications } = useBoard();
 
   const totalApps = applications.length;
@@ -24,7 +12,7 @@ export const DashboardPage: React.FC = () => {
   const interviewCount = applications.filter(a => a.status === 'SHORTLISTED').length;
 
   // Track active real-time status notifications
-  const [notifications, setNotifications] = useState<SystemNotification[]>([
+  const [notifications, setNotifications] = useState([
     {
       id: 'notif-1',
       type: 'NEXT_STEP',
@@ -58,7 +46,7 @@ export const DashboardPage: React.FC = () => {
     }
   ]);
 
-  const clearNotification = (id: string) => {
+  const clearNotification = (id) => {
     setNotifications(prev => prev.filter(n => n.id !== id));
   };
 

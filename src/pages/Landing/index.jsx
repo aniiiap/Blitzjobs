@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export const LandingPage: React.FC = () => {
+export const LandingPage = () => {
   return (
     <div className="p-8 text-center">
       <h1 className="text-3xl font-bold text-gray-900">Welcome to BlitzJobs</h1>

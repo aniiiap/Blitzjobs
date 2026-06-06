@@ -1,50 +1,9 @@
 import React, { createContext, useContext, useState } from 'react';
 
-export interface TimelineStep {
-  label: string;
-  date: string;
-  description: string;
-  completed: boolean;
-}
+const BoardContext = createContext(undefined);
 
-export interface ApplicationCard {
-  id: string;
-  title: string;
-  company: string;
-  location: string;
-  salary: string;
-  appliedDate: string;
-  matchPercentage: number;
-  // UPDATED: Funnel stages perfectly mapped to match your 5-stage UI tracking pipeline
-  status: 'APPLIED' | 'REVIEWING' | 'SHORTLISTED' | 'REJECTED' | 'SELECTED';
-  timeline: TimelineStep[];
-}
-
-interface UserProfileData {
-  name: string;
-  email: string;
-  phoneNumber: string;
-  companyWorking: string;
-  experienceYears: string;
-  resumeScore: number;
-  atsParseability: number;
-  experienceDepth: number;
-  keywordDensity: number;
-  impactMetrics: number;
-}
-
-interface BoardContextType {
-  applications: ApplicationCard[];
-  addApplication: (title: string, company: string, location: string, salary: string, match: number) => void;
-  shiftStatus: (id: string, direction: 'LEFT' | 'RIGHT') => void;
-  activeUser: UserProfileData;
-  updateActiveUser: (data: Partial<UserProfileData>) => void;
-}
-
-const BoardContext = createContext<BoardContextType | undefined>(undefined);
-
-export const BoardProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [applications, setApplications] = useState<ApplicationCard[]>([
+export const BoardProvider = ({ children }) => {
+  const [applications, setApplications] = useState([
     {
       id: 'app-1',
       title: 'Senior Frontend Engineer',
@@ -53,7 +12,7 @@ export const BoardProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       salary: '₹48-62 LPA',
       appliedDate: 'May 18, 2026',
       matchPercentage: 96,
-      status: 'SELECTED', // Updated to match the post-selection flow
+      status: 'SELECTED',
       timeline: [
         { label: 'Applied', date: 'May 18, 2026', description: 'Application submitted via platform.', completed: true },
         { label: 'Under Review', date: 'May 20, 2026', description: 'Recruiter screened your profile metrics.', completed: true },
@@ -79,7 +38,7 @@ export const BoardProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   ]);
 
-  const [activeUser, setActiveUser] = useState<UserProfileData>({
+  const [activeUser, setActiveUser] = useState({
     name: "Amit Choudhary",
     email: "docfyle@email.com",
     phoneNumber: "+91 98765 43210",
@@ -92,8 +51,8 @@ export const BoardProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     impactMetrics: 56
   });
 
-  const addApplication = (title: string, company: string, location: string, salary: string, match: number) => {
-    const newApp: ApplicationCard = {
+  const addApplication = (title, company, location, salary, match) => {
+    const newApp = {
       id: `app-${Date.now()}`,
       title,
       company,
@@ -110,9 +69,8 @@ export const BoardProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setApplications((prev) => [newApp, ...prev]);
   };
 
-  const shiftStatus = (id: string, direction: 'LEFT' | 'RIGHT') => {
-    // Array order modified to support your exact 5-stage flow sequence
-    const statusOrder: ApplicationCard['status'][] = ['APPLIED', 'REVIEWING', 'SHORTLISTED', 'REJECTED', 'SELECTED'];
+  const shiftStatus = (id, direction) => {
+    const statusOrder = ['APPLIED', 'REVIEWING', 'SHORTLISTED', 'REJECTED', 'SELECTED'];
     setApplications((prev) =>
       prev.map((app) => {
         if (app.id !== id) return app;
@@ -124,7 +82,7 @@ export const BoardProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     );
   };
 
-  const updateActiveUser = (data: Partial<UserProfileData>) => {
+  const updateActiveUser = (data) => {
     setActiveUser((prev) => ({ ...prev, ...data }));
   };
 

@@ -1,19 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useBoard } from '../../context/BoardContext';
 
-interface JobPosition {
-  id: string;
-  title: string;
-  company: string;
-  location: string;
-  category: string;
-  experienceRequired: number;
-  salary: string;
-  skills: string[];
-  match: number;
-}
-
-const MASTER_JOBS_DATABASE: JobPosition[] = [
+const MASTER_JOBS_DATABASE = [
   { id: 'job-1', title: 'Senior Product Engineer', company: 'Vercel', location: 'Remote', category: 'Engineering', experienceRequired: 4, salary: '₹38-50 LPA', skills: ['React', 'TypeScript', 'Edge'], match: 98 },
   { id: 'job-2', title: 'Frontend Architect', company: 'Stripe', location: 'Bengaluru', category: 'Design', experienceRequired: 5, salary: '₹48-62 LPA', skills: ['React', 'Design Systems'], match: 84 },
   { id: 'job-3', title: 'Full-Stack Engineer', company: 'Linear', location: 'Remote', category: 'Engineering', experienceRequired: 3, salary: '₹42-55 LPA', skills: ['Node', 'Postgres', 'GraphQL'], match: 91 },
@@ -36,12 +24,12 @@ const MASTER_JOBS_DATABASE: JobPosition[] = [
   { id: 'job-20', title: 'Senior Observability Engineer', company: 'Grafana Labs', location: 'Remote', category: 'Product', experienceRequired: 5, salary: '₹46-62 LPA', skills: ['Go', 'OpenTelemetry', 'Prometheus', 'React'], match: 94 }
 ];
 
-export const JobsListingPage: React.FC = () => {
+export const JobsListingPage = () => {
   const { addApplication, activeUser } = useBoard();
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeLocFilter, setActiveLocFilter] = useState<string | null>(null);
-  const [appliedIds, setAppliedIds] = useState<string[]>([]);
-  const [selectedJob, setSelectedJob] = useState<JobPosition | null>(null);
+  const [activeLocFilter, setActiveLocFilter] = useState(null);
+  const [appliedIds, setAppliedIds] = useState([]);
+  const [selectedJob, setSelectedJob] = useState(null);
 
   const filteredJobs = useMemo(() => {
     return MASTER_JOBS_DATABASE.filter(job => {
@@ -53,7 +41,7 @@ export const JobsListingPage: React.FC = () => {
     });
   }, [searchQuery, activeLocFilter]);
 
-  const handleApply = (job: JobPosition, e: React.MouseEvent) => {
+  const handleApply = (job, e) => {
     e.stopPropagation();
     addApplication(job.title, job.company, job.location, job.salary, job.match);
     setAppliedIds(prev => [...prev, job.id]);

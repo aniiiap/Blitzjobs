@@ -8,7 +8,7 @@ import { ApplicationsPage } from './pages/Applications';
 import { ProfilePage } from './pages/Profile';
 
 // --- VIBRANT BLUE-GRADIENT LANDING HUB (image_e7edfc.png Alignment) ---
-const LandingPage: React.FC = () => {
+const LandingPage = () => {
   return (
     <div className="bg-[#f8fafc] text-slate-800 min-h-[calc(100vh-4rem)] flex flex-col justify-between px-4 sm:px-6 lg:px-8 py-12 font-sans selection:bg-blue-100">
       
@@ -92,9 +92,9 @@ const LandingPage: React.FC = () => {
 };
 
 // --- AUTH PORTAL SECURE ACCESS FRAMEWORK ---
-const AuthPortalPage: React.FC<{ onLoginSuccess: () => void }> = ({ onLoginSuccess }) => {
+const AuthPortalPage = ({ onLoginSuccess }) => {
   const { updateActiveUser } = useBoard();
-  const [viewMode, setViewMode] = useState<'SIGN_IN' | 'SIGN_UP' | 'OTP_VERIFICATION'>('SIGN_IN');
+  const [viewMode, setViewMode] = useState('SIGN_IN');
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -103,7 +103,7 @@ const AuthPortalPage: React.FC<{ onLoginSuccess: () => void }> = ({ onLoginSucce
   const [generatedOtp, setGeneratedOtp] = useState('');
   const [error, setError] = useState('');
 
-  const handleSignIn = (e: React.FormEvent) => {
+  const handleSignIn = (e) => {
     e.preventDefault();
     const storedEmail = localStorage.getItem('user_email') || 'docfyle@email.com';
     const storedPass = localStorage.getItem('user_pass') || '1234';
@@ -115,7 +115,7 @@ const AuthPortalPage: React.FC<{ onLoginSuccess: () => void }> = ({ onLoginSucce
     }
   };
 
-  const handleSignUpInit = (e: React.FormEvent) => {
+  const handleSignUpInit = (e) => {
     e.preventDefault();
     if (!username.trim() || !email.trim()) {
       setError('Required registration parameters are empty.');
@@ -128,7 +128,7 @@ const AuthPortalPage: React.FC<{ onLoginSuccess: () => void }> = ({ onLoginSucce
     setViewMode('OTP_VERIFICATION');
   };
 
-  const handleVerifyOtp = (e: React.FormEvent) => {
+  const handleVerifyOtp = (e) => {
     e.preventDefault();
     if (otpInput === generatedOtp) {
       localStorage.setItem('user_email', email.toLowerCase().trim());
@@ -215,7 +215,7 @@ const AuthPortalPage: React.FC<{ onLoginSuccess: () => void }> = ({ onLoginSucce
 };
 
 // --- STYLIZED NAVIGATION HEADER (Matches image_e7edfc.png Layout) ---
-const GlobalEnterpriseHeader: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
+const GlobalEnterpriseHeader = ({ onLogout }) => {
   const location = useLocation();
   const { activeUser } = useBoard();
 
@@ -272,7 +272,7 @@ const GlobalEnterpriseHeader: React.FC<{ onLogout: () => void }> = ({ onLogout }
   );
 };
 
-function AppContent({ onLogout }: { onLogout: () => void }) {
+function AppContent({ onLogout }) {
   return (
     <div className="min-h-screen bg-[#f8fafc] text-slate-800 flex flex-col selection:bg-blue-100">
       <GlobalEnterpriseHeader onLogout={onLogout} />

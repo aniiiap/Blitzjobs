@@ -1,15 +1,4 @@
-export interface Job {
-  id: string;
-  title: string;
-  company: string;
-  location: string;
-  type: string;
-  experience: string;
-  salary: string;
-  tags: string[];
-}
-
-export const MOCK_JOBS: Job[] = [
+export const MOCK_JOBS = [
   {
     id: '1',
     title: 'Frontend Engineer (React)',

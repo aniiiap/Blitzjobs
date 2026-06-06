@@ -9,8 +9,7 @@ import { DashboardPage } from '../pages/Dashboard/index';
 import { ApplicationsPage } from '../pages/Applications/index';
 import { ProfilePage } from '../pages/Profile/index';
 
-// High-performance reusable wrapper component for unified page transition states
-const PageWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const PageWrapper = ({ children }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 6 }}
@@ -24,15 +23,14 @@ const PageWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   );
 };
 
-export const AppRoutes: React.FC = () => {
-  // Grab the location key so AnimatePresence knows exactly when the route changes
+export const AppRoutes = () => {
   const location = useLocation();
 
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<PageWrapper><LandingPage /></PageWrapper>} />
-        <Route path="/jobs" element={<PageWrapper><JobsListingPage /></PageWrapper>} /> 
+        <Route path="/jobs" element={<PageWrapper><JobsListingPage /></PageWrapper>} />
         <Route path="/jobs/:id" element={<PageWrapper><JobDetailsPage /></PageWrapper>} />
         <Route path="/dashboard" element={<PageWrapper><DashboardPage /></PageWrapper>} />
         <Route path="/applications" element={<PageWrapper><ApplicationsPage /></PageWrapper>} />
